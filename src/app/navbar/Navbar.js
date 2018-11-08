@@ -17,7 +17,7 @@ class Navbar extends Component {
                         <a href="#" className="menu-link">About</a>
                     </li>
                     <li className="menu-page">
-                        <a href="#" className="menu-link">Account</a>
+                        <a href="#" className="menu-link">Login</a>
                     </li>
                 </ul>
             </div>
