@@ -32,7 +32,7 @@
 }
 
 .grey {
-    color:#99bfdf;
+    color:cornflowerblue;
 
 }
 
@@ -46,8 +46,8 @@
 
 .button {
     font-size: 20px;
-    color: black;
-    font-weight: 500;
+    color: cornflowerblue;
+    font-weight: 600;
     border-radius: 5px;
     display: block;
     width: 150px;
@@ -61,7 +61,7 @@
 }
 
 .button:hover {
-    background-color: #99bfdf;
+    background-color: cornflowerblue;
     color: white;
 
     transition: 0.3s;

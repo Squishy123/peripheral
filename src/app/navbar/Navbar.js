@@ -4,17 +4,24 @@ import './Navbar.css';
 //components
 import Toggle from './toggle/Toggle.js';
 
-class Navbar extends Component {
+export default class Navbar extends Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
         return (
-            <div className="nav">
-                <div className="brand">
-                    <img className="brand-logo" src="/logo.png"></img>
+            <div className="nav-container">
+                <div className="nav">
+                    <div className="brand">
+                        <img className="brand-logo" src="/logo.png"></img>
+                    </div>
+                    <Toggle listener={this.props.sideToggle} />
                 </div>
-                <Toggle/>
+                <div className="sidenav">
+                    <h1>Hello World</h1>
+                </div>
+
             </div>
         );
     }
 }
-
-export default Navbar;

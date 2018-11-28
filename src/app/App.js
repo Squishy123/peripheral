@@ -13,10 +13,18 @@ import Dashboard from './dashboard/Dashboard.js';
 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      sideToggle: false
+    }
+  }
+
   render() {
     return (
       <div className="main">
-        <Navbar></Navbar>
+        <Navbar listener={this.state.sideToggle}/>
         <div className="panel">
         <Route exact path="/" component={Home}/>
         <Route exact path="/dashboard/:group_id" component={Dashboard}/>

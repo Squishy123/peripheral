@@ -1,3 +1,10 @@
+.nav-container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .nav {
     margin: 0;
     width: 100%;
@@ -28,3 +35,12 @@
     padding: 0 0 0 10px;
 }
 
+.sidenav {
+    position: fixed;
+    top:0;
+    right: 0;
+    width: 30%;
+    height: 100%;
+    background-color: cornflowerblue;
+    z-index: 100;
+}

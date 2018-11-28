@@ -1,19 +1,16 @@
 .main {
-  position: fixed;
-  top: 0%;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  width: 100%;
-
+  margin: 0;
+  padding: 0;
+  overflow: hidden; 
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .panel {
-  align-self: center;
-
+  align-self: flex-start;
+  margin: auto;
   padding: 0 10px 0 10px;
   
   display: flex;

@@ -11,6 +11,10 @@ class Toggle extends Component {
 
     toggleMenu() {
         this.setState({ toggle: !this.state.toggle });
+        
+        if(this.props.listener)
+            this.props.listener = this.state.toggle;
+
     }
 
     render() {
