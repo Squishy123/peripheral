@@ -9,20 +9,15 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <div className="home">
-                <h1>Cortex Panel</h1>
-                <div className="card-container">
-                    <div className="card">
-                        <h2>Clusters</h2>
-                </div>
-                    <div className="card">
-                        <h2>Login</h2>
-                </div>
-                    <div className="card">
-                        <h2>Register</h2>
-                </div>
+            <div className="centered-container">
+                <img className="logo-image" src="logo.png" />
+                <div className="main-panel">
+                    <h1 className="title bold">Cortex</h1>
+                    <p className="subtitle light"><span className="grey">All your</span> IoT <span className="grey">on one </span>stack</p>
+                    <a className="button" href="https://github.com/Squishy123/cortex">Check it Out Here</a>
                 </div>
             </div>
+
         )
     }
 }

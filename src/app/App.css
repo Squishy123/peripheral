@@ -1,11 +1,5 @@
-body {
-  background: #485563;
-  background: -webkit-linear-gradient(to right, #29323c, #485563);
-  background: linear-gradient(to right, #29323c, #485563);
-}
-
 .main {
-  position: relative;
+  position: fixed;
   top: 0%;
   left: 50%;
   transform: translate(-50%, 0%);
