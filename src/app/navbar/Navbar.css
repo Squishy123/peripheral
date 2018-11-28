@@ -27,16 +27,3 @@
     height: 75px;
 }
 
-.console {
-    align-self: center;
-}
-
-.bar1,
-.bar2,
-.bar3 {
-    width: 33px;
-    height: 4px;
-    margin: 6px 0;
-    border-radius: 3px;
-    background-color: white;
-}

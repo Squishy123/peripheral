@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './Navbar.css';
 
+//components
+import Toggle from './toggle/Toggle.js';
+
 class Navbar extends Component {
     render() {
         return (
@@ -8,11 +11,7 @@ class Navbar extends Component {
                 <div className="brand">
                     <img className="brand-logo" src="/logo.png"></img>
                 </div>
-                <div className="console" onclick="toggleLogin()">
-                    <div className="bar1"></div>
-                    <div className="bar2"></div>
-                    <div className="bar3"></div>
-                </div>
+                <Toggle/>
             </div>
         );
     }
