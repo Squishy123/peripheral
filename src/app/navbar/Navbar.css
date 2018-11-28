@@ -1,46 +1,42 @@
-.menu-container {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    height: 75px;
-    background-color: #6870a8;
-}
+.nav {
+    margin: 10px;
+    width: 75%;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
 
-.menu-row {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: flex-start;
-}
+    align-self: center;
 
-.menu-logo {
-    padding: 10px;
-    height: 50px;
-    width: auto;
-    position: fixed;
-    left: 10px;
-}
-
-.menu-pages {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: stretch;
-}
-
-.menu-page {
-    padding: 10px;
-    list-style-type: none;
-    flex-basis: auto;
-}
-
-.menu-link {
     color: white;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    padding: 0 10px 0 10px;
+    transition: 0.3s;
+}
+
+.nav:hover {
+    background-color: cornflowerblue;
+    transition: 0.3s;
+}
+
+.brand-logo {
+    width: 75px;
+    height: 75px;
+}
+
+.console {
+    align-self: center;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+    width: 33px;
+    height: 4px;
+    margin: 6px 0;
+    border-radius: 3px;
+    background-color: white;
 }

@@ -4,22 +4,15 @@ import './Navbar.css';
 class Navbar extends Component {
     render() {
         return (
-            <div className="menu-container">
-                <img src="peripheral-logo.png" className="menu-logo" />
-                <ul className="menu-pages">
-                    <li className="menu-page">
-                        <a href="#" className="menu-link">Overview</a>
-                    </li>
-                    <li className="menu-page">
-                        <a href="#" className="menu-link">Manage</a>
-                    </li>
-                    <li className="menu-page">
-                        <a href="#" className="menu-link">About</a>
-                    </li>
-                    <li className="menu-page">
-                        <a href="#" className="menu-link">Login</a>
-                    </li>
-                </ul>
+            <div className="nav">
+                <div className="brand">
+                    <img className="brand-logo" src="/logo.png"></img>
+                </div>
+                <div className="console" onclick="toggleLogin()">
+                    <div className="bar1"></div>
+                    <div className="bar2"></div>
+                    <div className="bar3"></div>
+                </div>
             </div>
         );
     }

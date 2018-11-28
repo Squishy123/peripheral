@@ -1,0 +1,32 @@
+.home{
+    color: white;
+}
+
+.home > h1 {
+    text-align: center;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+    align-items: flex-start;
+}
+
+.card {
+    text-align: center;
+    margin: 10px 50px 10px 50px;
+    padding: 10px;
+    width: 150px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: cornflowerblue;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.card > * {
+    margin: auto;
+}
