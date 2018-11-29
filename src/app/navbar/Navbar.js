@@ -22,7 +22,7 @@ export default class Navbar extends Component {
             <div className="nav-container">
                 <div className="nav">
                     <div className="brand">
-                        <img className="brand-logo" src="/logo.png"></img>
+                        <a href="/"><img className="brand-logo" src="/logo.png"></img></a>
                     </div>
                     <Toggle listener={this.toggleSidebar} toggle={this.state.sideToggle}/>
                 </div>
