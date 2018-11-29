@@ -1,0 +1,17 @@
+.sidenav {
+    position: fixed;
+    top:0;
+    right: 0;
+    width: 30%;
+    height: 100%;
+    background-color: cornflowerblue;
+    z-index: 100;
+
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.expand {
+    transform: translateX(0);
+}
+

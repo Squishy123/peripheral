@@ -24,23 +24,8 @@
     transition: 0.3s;
 }
 
-.nav:hover {
-    background-color: cornflowerblue;
-    transition: 0.3s;
-}
-
 .brand-logo {
     width: 75px;
     height: 75px;
     padding: 0 0 0 10px;
-}
-
-.sidenav {
-    position: fixed;
-    top:0;
-    right: 0;
-    width: 30%;
-    height: 100%;
-    background-color: cornflowerblue;
-    z-index: 100;
 }

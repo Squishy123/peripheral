@@ -24,7 +24,7 @@ class App extends Component {
   render() {
     return (
       <div className="main">
-        <Navbar listener={this.state.sideToggle}/>
+        <Navbar sideToggle={this.state.sideToggle}/>
         <div className="panel">
         <Route exact path="/" component={Home}/>
         <Route exact path="/dashboard/:group_id" component={Dashboard}/>

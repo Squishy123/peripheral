@@ -5,16 +5,12 @@ class Toggle extends Component {
     constructor(props) {
         super(props);
         this.state = { toggle: (props.toggle) ? props.toggle : false };
-
         this.toggleMenu = this.toggleMenu.bind(this);
     }
 
     toggleMenu() {
         this.setState({ toggle: !this.state.toggle });
-        
-        if(this.props.listener)
-            this.props.listener = this.state.toggle;
-
+        this.props.listener();
     }
 
     render() {
