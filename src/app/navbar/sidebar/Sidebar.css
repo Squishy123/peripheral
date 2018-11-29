@@ -15,3 +15,28 @@
     transform: translateX(0);
 }
 
+.sidenav-pages {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+}
+
+.sidenav-page {
+    list-style-type: none;
+    display: block;
+    padding: 20px;
+
+    align-self: flex-end;
+    width: 100%;
+    border-bottom-width: 0.0625rem;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(219, 217, 210);
+}
+
+.sidenav-page > a {
+    color: white;
+    font-weight: 500;
+    font-size: 36px;
+    text-decoration: none;
+}

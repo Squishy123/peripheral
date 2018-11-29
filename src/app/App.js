@@ -9,6 +9,7 @@ import Navbar from './navbar/Navbar';
 
 //pages
 import Home from './home/Home.js';
+import Login from './login/Login.js';
 import Dashboard from './dashboard/Dashboard.js';
 
 
@@ -27,6 +28,7 @@ class App extends Component {
         <Navbar sideToggle={this.state.sideToggle}/>
         <div className="panel">
         <Route exact path="/" component={Home}/>
+        <Route exact path="/login" component={Login}/>
         <Route exact path="/dashboard/:group_id" component={Dashboard}/>
         <Route exact path="/dashboard/:group_id/:cluster_id" component={Dashboard}/>
         </div>
