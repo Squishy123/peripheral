@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 //router
-import {Route, Switch, withRouter} from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 //navbar
 import Navbar from './navbar/Navbar';
@@ -25,12 +25,13 @@ class App extends Component {
   render() {
     return (
       <div className="main">
-        <Navbar sideToggle={this.state.sideToggle}/>
+        <Navbar sideToggle={this.state.sideToggle} />
         <div className="panel">
-        <Route exact path="/" component={Home}/>
-        <Route exact path="/login" component={Login}/>
-        <Route exact path="/dashboard/:group_id" component={Dashboard}/>
-        <Route exact path="/dashboard/:group_id/:cluster_id" component={Dashboard}/>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/dashboard/:group_id" component={Dashboard} />
+          <Route exact path="/dashboard/:group_id/:cluster_id" component={Dashboard} />
         </div>
       </div>
     );

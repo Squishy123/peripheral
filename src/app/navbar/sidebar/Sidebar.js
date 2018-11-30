@@ -19,7 +19,7 @@ export default class Sidebar extends Component {
                         <a href="/login">Login</a>
                     </li>
                     <li className="sidenav-page">
-                        <a href="#">Clusters</a>
+                        <a href="/dashboard">Dashboard</a>
                     </li>
                     <li className="sidenav-page">
                         <a href="#">Settings</a>
