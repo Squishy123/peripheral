@@ -1,11 +1,15 @@
 import React from 'react';
 
+import {Redirect} from 'react-router-dom';
+
 import './Login.css';
 
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
         console.log(process.env.REACT_APP_SERVER_HOST);
+
+        this.state = {loginMessage: null}
 
         this.loginRequest = this.loginRequest.bind(this);
     }
@@ -22,8 +26,13 @@ export default class Login extends React.Component {
                     email: email, password: password
                 })
             }).then(res=>res.json());
-            console.log(this.props.cookies);
-            this.props.cookies.set('access_token', access_token);
+            console.log(access_token)
+            if(access_token.access_token) {
+                this.props.cookies.set('access_token', access_token);
+                this.setState({loginMessage: <Redirect push to="/dashboard"/>});
+            } else {
+            this.setState({loginMessage: <h4>{access_token.output.payload.message}</h4>})
+            } 
         } catch (err) {
             console.log(err);
         }
@@ -40,6 +49,7 @@ export default class Login extends React.Component {
                         <label>Password: </label>
                         <input id="password" type="password" placeholder="1234" autoComplete="current-password"/>
                         <button className="button" type="button" onClick={this.loginRequest}>Login</button>
+                        {this.state.loginMessage}
                     </form>
                 </div>
             </div>
