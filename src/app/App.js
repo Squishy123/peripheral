@@ -12,6 +12,9 @@ import Home from './home/Home.js';
 import Login from './login/Login.js';
 import Dashboard from './dashboard/Dashboard.js';
 
+//global cookies
+import { withCookies, Cookies } from 'react-cookie';
+
 
 class App extends Component {
   constructor(props) {
@@ -24,18 +27,22 @@ class App extends Component {
 
   render() {
     return (
-      <div className="main">
+      <div>
         <Navbar sideToggle={this.state.sideToggle} />
-        <div className="panel">
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/dashboard/:group_id" component={Dashboard} />
-          <Route exact path="/dashboard/:group_id/:cluster_id" component={Dashboard} />
+        <div className="main">
+          <div className="panel">
+            <Switch>
+              <Route exact path="/" render={() => (<Home cookies={this.props.cookies} />)} />
+              <Route exact path="/login" render={() => (<Login cookies={this.props.cookies} />)} />
+              <Route exact path="/dashboard" component={(props) => (<Dashboard cookies={this.props.cookies} match={props.match} />)} />
+              <Route exact path="/dashboard/:group_id" render={(props) => (<Dashboard cookies={this.props.cookies} match={props.match} />)} />
+              <Route exact path="/dashboard/:group_id/:cluster_id" render={(props) => (<Dashboard cookies={this.props.cookies} match={props.match} />)} />
+            </Switch>
+          </div>
         </div>
       </div>
     );
   }
 }
 
-export default App;
+export default withCookies(App);

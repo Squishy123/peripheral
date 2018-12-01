@@ -1,0 +1,26 @@
+.dashboard {
+    color: white;
+    text-align: center;
+}
+
+.dashboard > p { 
+    font-size: 36px;
+}
+
+.dashboard > a {
+    color: white;
+}
+
+.dashboard > p > a {
+    color: cornflowerblue;
+}
+
+.group-cards-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    align-content: flex-start;
+}

@@ -7,7 +7,10 @@ import './index.css';
 import App from './app/App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
+//cookies
+import {CookiesProvider} from 'react-cookie';
+
+ReactDOM.render(<CookiesProvider><BrowserRouter><App /></BrowserRouter></CookiesProvider>, document.getElementById('root'));
 
 serviceWorker.register();
 

@@ -1,0 +1,25 @@
+.group-card {
+
+    width: 200px;
+    min-height: 300px;
+    padding: 20px;
+    background-color: cornflowerblue;
+    margin: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.card-link.button{
+    margin: auto;
+    align-self: flex-end;
+    color: black;
+    text-decoration: none;
+}
+
+.card-link.button:hover{
+    background: #485563;
+    color: white;
+    text-decoration: none;
+}
