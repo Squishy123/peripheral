@@ -153,9 +153,9 @@ export default class Dashboard extends React.Component {
             ]};
             console.log(data);
             
-            let chart = <DataChart type='line' data={data} options={{scales: {xAxes: [{ticks: {fontColor: 'white'}}], yAxes: [{ticks: {fontColor: 'white'}}]}, legend: {labels: {
+            let chart = <DataChart type='line' data={data} options={{maintainAspectRatio: false, scales: {xAxes: [{ticks: {fontColor: 'white'}}], yAxes: [{ticks: {fontColor: 'white'}}]}, legend: {labels: {
                 fontColor: 'white'
-            }}}} width="750" height="200"/>
+            }}}} width="80vw" height="400px"/>
 
             this.setState({groupCards: this.state.groupCards.concat([<div><h2>Outdoor Temperature</h2>{chart}</div>])})
 
