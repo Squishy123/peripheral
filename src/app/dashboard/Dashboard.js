@@ -6,6 +6,8 @@ import './Dashboard.css';
 
 import Groupcard from './groupcard/Groupcard.js';
 
+import DataChart from './dataChart/DataChart.js';
+
 const jwt = require('jsonwebtoken');
 
 export default class Dashboard extends React.Component {
@@ -20,23 +22,27 @@ export default class Dashboard extends React.Component {
                 state = "select-node";
             }
         }
-        console.log(state);
-        this.state = { dashboardState: state, login: false, groupCards: [] };
+        this.state = { dashboardState: state, login: false, groupCards: [], nodes: [], HP_outdoor_temperature: [] };
 
         this.expiryAccess = this.expiryAccess.bind(this);
         this.getGroups = this.getGroups.bind(this);
         this.getClusters = this.getClusters.bind(this);
+        this.getOutdoorTemperature = this.getOutdoorTemperature.bind(this);
     }
 
     async expiryAccess() {
-        let access_token = this.props.cookies.get('access_token').access_token;
-        if (access_token) {
-            this.setState({ login: true, access_token: access_token });
-            let decoded = await jwt.decode(access_token);
-
-            if (!decoded.exp > Date.now()) {
-                return true;
+        try {
+            let access_token = this.props.cookies.get('access_token').access_token;
+            if (access_token) {
+                let decoded = await jwt.decode(access_token);
+                if (decoded.exp < Date.now().valueOf() / 1000) {
+                    return true;
+                } else {
+                    this.setState({ login: true, access_token: access_token });
+                }
             }
+        } catch (err) {
+            return false;
         }
         return false;
     }
@@ -77,6 +83,7 @@ export default class Dashboard extends React.Component {
                     'group_id': this.props.match.params.group_id
                 }
             }).then(res => res.json());
+
             if (clusters.length > 0) {
                 clusters.forEach(e => {
                     let card = <Groupcard name={e.name} description={e.description} group_id={`${this.props.match.params.group_id}/${e._id}`} />;
@@ -95,6 +102,66 @@ export default class Dashboard extends React.Component {
         }
     }
 
+    async getCluster() {
+        try {
+            let cluster = await fetch(`${process.env.REACT_APP_SERVER_HOST}/api/cluster`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'access_token': this.state.access_token,
+                    'group_id': this.props.match.params.group_id,
+                    'cluster_id': this.props.match.params.cluster_id
+                }
+            }).then(res => res.json());
+            this.setState({
+                nodes: cluster.nodes
+            });
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getOutdoorTemperature() {
+        //do this for all the nodes and then combine the outdoor temperature thingey
+        try {
+            await Promise.all(this.state.nodes.map(async (n) => {
+                let metas = await fetch(`${process.env.REACT_APP_SERVER_HOST}/api/metas`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'api_token': this.state.api_token,
+                        'reading_name': 'HP_outdoor_temperature',
+                        'node_id': n.node_id
+                    }
+                }).then(res => res.json());
+                if (metas.length && this.state.HP_outdoor_temperature.length) {
+                    this.setState({
+                        HP_outdoor_temperature: this.state.HP_outdoor_temperature.concat([metas])
+                    });
+                } else if (metas.length && this.state.HP_outdoor_temperature.length == 0) {
+                    this.setState({
+                        HP_outdoor_temperature: metas
+                    });
+                }
+            }));
+
+            let data = {labels: this.state.HP_outdoor_temperature.map(m => m.created_at), datasets: [{
+             label: "Outdoor Temperature",
+            data: this.state.HP_outdoor_temperature.map(m => m.reading_value),             
+            backgroundColor: 'cornflowerblue'}
+            ]};
+            console.log(data);
+            
+            let chart = <DataChart type='line' data={data} options={{}} width="750" height="200"/>
+
+            this.setState({groupCards: this.state.groupCards.concat([<div><h2>Outdoor Temperature</h2>{chart}</div>])})
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async checkState() {
         let state = "select-group";
         //determine which of the 3 states we are in
@@ -104,7 +171,7 @@ export default class Dashboard extends React.Component {
                 state = "select-node";
             }
         }
-        this.setState({dashboardState: state})
+        this.setState({ dashboardState: state })
     }
 
     async componentDidMount() {
@@ -113,11 +180,13 @@ export default class Dashboard extends React.Component {
             this.getGroups();
         } else if (!expiry && this.state.dashboardState === 'select-cluster') {
             this.getClusters();
+        } else if (!expiry && this.state.dashboardState === 'select-node') {
+            await this.getCluster();
+            this.getOutdoorTemperature();
         }
     }
 
     render() {
-
         return (
             (this.state.login) ?
                 <div className="dashboard">
@@ -128,6 +197,7 @@ export default class Dashboard extends React.Component {
                 </div>
                 :
                 <div className="dashboard">
+                    <p>Token Expired</p>
                     <p>Please login <Link to="/login">here.</Link></p>
                 </div>
         )
