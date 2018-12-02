@@ -149,11 +149,11 @@ export default class Dashboard extends React.Component {
             let data = {labels: this.state.HP_outdoor_temperature.map(m => m.created_at), datasets: [{
              label: "Outdoor Temperature",
             data: this.state.HP_outdoor_temperature.map(m => m.reading_value),             
-            backgroundColor: 'cornflowerblue'}
+            borderColor: 'cornflowerblue',
+            fill: false}
             ]};
-            console.log(data);
             
-            let chart = <DataChart type='line' data={data} options={{maintainAspectRatio: false, scales: {xAxes: [{ticks: {fontColor: 'white'}}], yAxes: [{ticks: {fontColor: 'white'}}]}, legend: {labels: {
+            let chart = <DataChart type='line' data={data} options={{maintainAspectRatio: false, scales: {xAxes: [{gridLines: {color: 'white'}, ticks: {fontColor: 'white'}}], yAxes: [{gridLines: {color: 'white'}, ticks: {fontColor: 'white'}}]}, legend: {labels: {
                 fontColor: 'white'
             }}}} width="80vw" height="400px"/>
 
@@ -194,7 +194,7 @@ export default class Dashboard extends React.Component {
                 <div className="dashboard">
                     <h1>Dashboard</h1>
                     <div className="group-cards-container">
-                        {this.state.groupCards}
+                        {(this.state.groupCards.length > 0)? this.state.groupCards : <p>Grabbing Data...</p>}
                     </div>
                 </div>
                 :
