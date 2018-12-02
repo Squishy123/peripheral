@@ -22,7 +22,7 @@ export default class Dashboard extends React.Component {
                 state = "select-node";
             }
         }
-        this.state = { dashboardState: state, login: false, groupCards: [], nodes: [], HP_outdoor_temperature: [] };
+        this.state = { dashboardState: state, login: false, groupCards: [], nodes: [], HP_outdoor_temperature: [], outdoorTemperatureChart: null };
 
         this.expiryAccess = this.expiryAccess.bind(this);
         this.getGroups = this.getGroups.bind(this);
@@ -146,19 +146,26 @@ export default class Dashboard extends React.Component {
                 }
             }));
 
-            let data = {labels: this.state.HP_outdoor_temperature.map(m => m.created_at), datasets: [{
-             label: "Outdoor Temperature",
-            data: this.state.HP_outdoor_temperature.map(m => m.reading_value),             
-            borderColor: 'cornflowerblue',
-            fill: false}
-            ]};
-            
-            let chart = <DataChart type='line' data={data} options={{maintainAspectRatio: false, scales: {xAxes: [{gridLines: {color: 'white'}, ticks: {fontColor: 'white'}}], yAxes: [{gridLines: {color: 'white'}, ticks: {fontColor: 'white'}}]}, legend: {labels: {
-                fontColor: 'white'
-            }}}} width="80vw" height="400px"/>
-
-            this.setState({groupCards: this.state.groupCards.concat([<div><h2>Outdoor Temperature</h2>{chart}</div>])})
-
+            let data = {
+                labels: this.state.HP_outdoor_temperature.map(m => m.created_at), datasets: [{
+                    label: "Outdoor Temperature",
+                    data: this.state.HP_outdoor_temperature.map(m => m.reading_value),
+                    borderColor: 'cornflowerblue',
+                    fill: false
+                }
+                ]
+            };
+            let chart = <DataChart type='line' data={data} options={{
+                maintainAspectRatio: false,
+                scales: { xAxes: [{ gridLines: { color: 'white' }, ticks: { fontColor: 'white' } }], yAxes: [{ gridLines: { color: 'white' }, ticks: { fontColor: 'white' } }] }, legend: {
+                    labels: {
+                        fontColor: 'white'
+                    }
+                }
+            }} width="80vw" height="400px" />
+            this.setState({ outdoorTemperatureChart: chart });
+            console.log("updating!")
+            //this.setState({groupCards: this.state.groupCards.concat([<div><h2>Outdoor Temperature</h2>{chart}</div>]), outdoorTemperatureChart: chart});
         } catch (err) {
             console.log(err);
         }
@@ -184,7 +191,9 @@ export default class Dashboard extends React.Component {
             this.getClusters();
         } else if (!expiry && this.state.dashboardState === 'select-node') {
             await this.getCluster();
-            this.getOutdoorTemperature();
+            await this.getOutdoorTemperature();
+            //set update timer to every 2 minutes
+            setInterval(async () => {return await this.getOutdoorTemperature()}, 120000);
         }
     }
 
@@ -194,7 +203,11 @@ export default class Dashboard extends React.Component {
                 <div className="dashboard">
                     <h1>Dashboard</h1>
                     <div className="group-cards-container">
-                        {(this.state.groupCards.length > 0)? this.state.groupCards : <p>Grabbing Data...</p>}
+                        {(this.state.dashboardState === 'select-group' || this.state.dashboardState === 'select-cluster') ?
+                             (this.state.groupCards.length > 0) ? this.state.groupCards : <p>Grabbing Data...</p>
+                            :
+                            (this.state.dashboardState === 'select-node' && this.state.outdoorTemperatureChart) ? this.state.outdoorTemperatureChart : <p>Grabbing Data...</p>
+                        }
                     </div>
                 </div>
                 :
