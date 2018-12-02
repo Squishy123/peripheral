@@ -22,16 +22,18 @@ export default class Dashboard extends React.Component {
                 state = "select-node";
             }
         }
-        this.state = { dashboardState: state, 
-            login: false, 
-            groupCards: [], 
-            nodes: [], 
-            HP_outdoor_temperature: [], 
-            outdoorTemperatureChart: null, 
-            TH_indoor_temperature: [], 
-            indoorTemperatureChart: null, 
-            TH_heat_req_demand: [], 
-            interfaceBoardDataChart: null };
+        this.state = {
+            dashboardState: state,
+            login: false,
+            groupCards: [],
+            nodes: [],
+            HP_outdoor_temperature: [],
+            outdoorTemperatureChart: null,
+            TH_indoor_temperature: [],
+            indoorTemperatureChart: null,
+            TH_heat_req_demand: [],
+            interfaceBoardDataChart: null
+        };
 
         this.expiryAccess = this.expiryAccess.bind(this);
         this.getGroups = this.getGroups.bind(this);
@@ -314,24 +316,24 @@ export default class Dashboard extends React.Component {
                         {(this.state.dashboardState === 'select-group' || this.state.dashboardState === 'select-cluster') ?
                             (this.state.groupCards.length > 0) ? this.state.groupCards : <p>Grabbing Data...</p>
                             : null}
-                        {
-                            (this.state.dashboardState === 'select-node' && this.state.outdoorTemperatureChart) ?
+                        {(this.state.dashboardState === 'select-node') ? [
+                            (this.state.outdoorTemperatureChart) ?
                                 <div><h2>Outdoor Temperature</h2>{this.state.outdoorTemperatureChart}</div>
                                 :
                                 <p>Grabbing Data...</p>
-                        }
-                        {
-                            (this.state.dashboardState === 'select-node' && this.state.indoorTemperatureChart) ?
+                            ,
+
+                            (this.state.indoorTemperatureChart) ?
                                 <div><h2>Indoor Temperature</h2>{this.state.indoorTemperatureChart}</div>
                                 :
                                 <p>Grabbing Data...</p>
-                        }
-                            {
-                            (this.state.dashboardState === 'select-node' && this.state.interfaceBoardDataChart) ?
+                            ,
+
+                            (this.state.interfaceBoardDataChart) ?
                                 <div><h2>Interface Board Data</h2>{this.state.interfaceBoardDataChart}</div>
                                 :
                                 <p>Grabbing Data...</p>
-                        }
+                        ] : null}
                     </div>
                 </div>
                 :
