@@ -28,7 +28,7 @@ export default class Login extends React.Component {
             }).then(res=>res.json());
             console.log(access_token)
             if(access_token.access_token) {
-                this.props.cookies.set('access_token', access_token);
+                await this.props.cookies.set('access_token', access_token);
                 this.setState({loginMessage: <Redirect push to="/dashboard"/>});
             } else {
             this.setState({loginMessage: <h4>{access_token.output.payload.message}</h4>})
