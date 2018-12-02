@@ -22,13 +22,23 @@ export default class Dashboard extends React.Component {
                 state = "select-node";
             }
         }
-        this.state = { dashboardState: state, login: false, groupCards: [], nodes: [], HP_outdoor_temperature: [], outdoorTemperatureChart: null, TH_indoor_temperature: [], indoorTemperatureChart: null };
+        this.state = { dashboardState: state, 
+            login: false, 
+            groupCards: [], 
+            nodes: [], 
+            HP_outdoor_temperature: [], 
+            outdoorTemperatureChart: null, 
+            TH_indoor_temperature: [], 
+            indoorTemperatureChart: null, 
+            TH_heat_req_demand: [], 
+            interfaceBoardDataChart: null };
 
         this.expiryAccess = this.expiryAccess.bind(this);
         this.getGroups = this.getGroups.bind(this);
         this.getClusters = this.getClusters.bind(this);
         this.getOutdoorTemperature = this.getOutdoorTemperature.bind(this);
         this.getIndoorTemperature = this.getIndoorTemperature.bind(this);
+        this.getInterfaceBoardData = this.getInterfaceBoardData.bind(this);
     }
 
     async expiryAccess() {
@@ -219,6 +229,54 @@ export default class Dashboard extends React.Component {
         }
     }
 
+    async getInterfaceBoardData() {
+        //do this for all the nodes and then combine the outdoor temperature thingey
+        try {
+            await Promise.all(this.state.nodes.map(async (n) => {
+                let metas = await fetch(`${process.env.REACT_APP_SERVER_HOST}/api/metas`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'api_token': this.state.api_token,
+                        'reading_name': 'TH_heat_req_demand',
+                        'node_id': n.node_id
+                    }
+                }).then(res => res.json());
+                if (metas.length && this.state.TH_heat_req_demand.length) {
+                    this.setState({
+                        TH_heat_req_demand: this.state.TH_heat_req_demand.concat([metas])
+                    });
+                } else if (metas.length && this.state.TH_heat_req_demand.length == 0) {
+                    this.setState({
+                        TH_heat_req_demand: metas
+                    });
+                }
+            }));
+
+            let data = {
+                labels: this.state.TH_heat_req_demand.map(m => m.created_at), datasets: [{
+                    label: "TH_heat_req_demand",
+                    data: this.state.TH_heat_req_demand.map(m => m.reading_value),
+                    borderColor: 'cornflowerblue',
+                    fill: false
+                }
+                ]
+            };
+            let chart = <DataChart type='line' data={data} options={{
+                maintainAspectRatio: false,
+                scales: { xAxes: [{ gridLines: { color: 'white' }, ticks: { fontColor: 'white' } }], yAxes: [{ gridLines: { color: 'white' }, ticks: { fontColor: 'white' } }] }, legend: {
+                    labels: {
+                        fontColor: 'white'
+                    }
+                }
+            }} width="80vw" height="400px" />
+            this.setState({ interfaceBoardDataChart: chart });
+            //this.setState({groupCards: this.state.groupCards.concat([<div><h2>Outdoor Temperature</h2>{chart}</div>]), outdoorTemperatureChart: chart});
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async checkState() {
         let state = "select-group";
         //determine which of the 3 states we are in
@@ -239,10 +297,11 @@ export default class Dashboard extends React.Component {
             this.getClusters();
         } else if (!expiry && this.state.dashboardState === 'select-node') {
             await this.getCluster();
-            await Promise.all([this.getOutdoorTemperature(), this.getIndoorTemperature()]);
+            await Promise.all([this.getOutdoorTemperature(), this.getIndoorTemperature(), this.getInterfaceBoardData()]);
             //set update timer to every 2 minutes
-            setInterval(async () => {return await this.getOutdoorTemperature()}, 120000);
-            setInterval(async () => {return await this.getIndoorTemperature()}, 120000);
+            setInterval(async () => { return await this.getOutdoorTemperature() }, 120000);
+            setInterval(async () => { return await this.getIndoorTemperature() }, 120000);
+            setInterval(async () => { return await this.getInterfaceBoardData() }, 120000);
         }
     }
 
@@ -253,19 +312,25 @@ export default class Dashboard extends React.Component {
                     <h1>Dashboard</h1>
                     <div className="group-cards-container">
                         {(this.state.dashboardState === 'select-group' || this.state.dashboardState === 'select-cluster') ?
-                             (this.state.groupCards.length > 0) ? this.state.groupCards : <p>Grabbing Data...</p>
+                            (this.state.groupCards.length > 0) ? this.state.groupCards : <p>Grabbing Data...</p>
                             : null}
                         {
-                            (this.state.dashboardState === 'select-node' && this.state.outdoorTemperatureChart) ? 
-                            <div><h2>Outdoor Temperature</h2>{this.state.outdoorTemperatureChart}</div> 
-                            : 
-                            <p>Grabbing Data...</p>
+                            (this.state.dashboardState === 'select-node' && this.state.outdoorTemperatureChart) ?
+                                <div><h2>Outdoor Temperature</h2>{this.state.outdoorTemperatureChart}</div>
+                                :
+                                <p>Grabbing Data...</p>
                         }
-                         {
-                            (this.state.dashboardState === 'select-node' && this.state.indoorTemperatureChart) ? 
-                            <div><h2>Indoor Temperature</h2>{this.state.indoorTemperatureChart}</div> 
-                            : 
-                            <p>Grabbing Data...</p>
+                        {
+                            (this.state.dashboardState === 'select-node' && this.state.indoorTemperatureChart) ?
+                                <div><h2>Indoor Temperature</h2>{this.state.indoorTemperatureChart}</div>
+                                :
+                                <p>Grabbing Data...</p>
+                        }
+                            {
+                            (this.state.dashboardState === 'select-node' && this.state.interfaceBoardDataChart) ?
+                                <div><h2>Interface Board Data</h2>{this.state.interfaceBoardDataChart}</div>
+                                :
+                                <p>Grabbing Data...</p>
                         }
                     </div>
                 </div>

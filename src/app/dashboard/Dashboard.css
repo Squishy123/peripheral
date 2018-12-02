@@ -17,10 +17,12 @@
 
 .group-cards-container {
     display: flex;
-    align-items: center;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     flex-wrap: wrap;
-    flex-flow: row wrap;
     align-content: flex-start;
+}
+
+.group-cards-container > p {
+    margin: auto;
 }
