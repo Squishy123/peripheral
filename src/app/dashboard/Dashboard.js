@@ -87,6 +87,7 @@ export default class Dashboard extends React.Component {
     }
 
     async getClusters() {
+     
         try {
             let clusters = await fetch(`${process.env.REACT_APP_SERVER_HOST}/api/clusters`, {
                 method: 'GET',
